@@ -4,10 +4,10 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question("Piedra, papel o tijera? ", function (respuesta) {
-  console.log("Tu respuesta es: " + respuesta);
-  rl.close();
-});
+// rl.question("Piedra, papel o tijera? ", function (respuesta) {
+//   console.log("Tu respuesta es: " + respuesta);
+//   rl.close();
+// });
 
 const jugadasPosibles = ["piedra", "papel", "tijera"];
 
@@ -26,5 +26,39 @@ function compararJugadas(jugadaUsuario, jugadaMaquina) {
     } else if (jugadaMaquina === "tijera") {
       console.log("Perdiste");
     }
+  } else if (jugadaUsuario === "piedra") {
+    if (jugadaMaquina === "tijera") {
+      console.log("Ganaste");
+    } else if (jugadaMaquina === "papel") {
+      console.log("Perdiste");
+    }
+  } else if (jugadaUsuario === "tijera") {
+    if (jugadaMaquina === "papel") {
+      console.log("Ganaste");
+    } else if (jugadaMaquina === "piedra") {
+      console.log("Perdiste");
+    }
   }
 }
+
+function obtenerJugadaUsuario() {
+  rl.question("Piedra, papel o tijera? ", function (respuesta) {
+    const jugadaUsuario = respuesta.toLocaleLowerCase();
+    const laJugadaDeUsuarioEsValida = jugadasPosibles.includes(jugadaUsuario);
+    if (laJugadaDeUsuarioEsValida) {
+      const jugadaDeLaMaquina = jugadaMaquina();
+      console.log(`La maquina jugó ${jugadaDeLaMaquina}`);
+      compararJugadas(jugadaUsuario, jugadaDeLaMaquina);
+      rl.close();
+    } else {
+      console.log(
+        "Jugada invalida, haz escogido " +
+          jugadaUsuario +
+          " por favor escoge piedra, papel o tijera"
+      );
+      obtenerJugadaUsuario();
+    }
+  });
+}
+
+obtenerJugadaUsuario();
